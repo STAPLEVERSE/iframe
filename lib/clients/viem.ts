@@ -5,13 +5,14 @@ import getViemNetwork from "../utils/getViemNetwork";
 const providerEndpoint = process.env.NEXT_PUBLIC_PROVIDER_ENDPOINT || "";
 
 export const getPublicClient = (chainId: number) => {
-  const chain = getViemNetwork(chainId)
+  const chain = getViemNetwork(chainId);
+  const transportEndpoint = chainId === 1 ? providerEndpoint : undefined;
   const publicClient = createPublicClient({
     chain: chain,
-    transport: http(),
+    transport: http(transportEndpoint),
   });
-  return publicClient
-}
+  return publicClient;
+};
 
 export const publicClient = getPublicClient(1);
 
@@ -21,5 +22,3 @@ export const rpcClient = createPublicClient({
   chain: goerli,
   transport,
 });
-
-
